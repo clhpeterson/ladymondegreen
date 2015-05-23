@@ -71,7 +71,7 @@ for i in range (0, len (classes)):
 	subs = list (subs)
 	substitutions[i] = subs
 
-vowel_code = -1
+vowel_code = "v"
 blank_code = len(classes)-1
 
 # we need a dictionary that gives the scores to be inserted into create_templates.
@@ -115,8 +115,11 @@ for i in range (0, len (classes)):
 	scores_dict[i] = all_possible
 	scores_dict_last[i] = all_possible_last
 
+semivowel_list = []
+for entry in substitutions[17]:
+	semivowel_list.append (([entry], class_scores_matrix[17][entry], 0))
 
-
+semivowel_list = sorted (semivowel_list, key=lambda entry:entry[1])
 
 
 
