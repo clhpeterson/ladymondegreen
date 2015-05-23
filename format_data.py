@@ -74,6 +74,51 @@ for i in range (0, len (classes)):
 vowel_code = -1
 blank_code = len(classes)-1
 
+# we need a dictionary that gives the scores to be inserted into create_templates.
+# needs to be sorted by score
+
+# we need to create a score matrix based on the new classes
+
+class_scores_matrix = []
+for i in range (0, len (classes)):
+	to_append = []
+	index = consonant_to_entry[classes[i][0]]
+	for j in range (0, len (classes)):
+		new_index = consonant_to_entry[classes[j][0]]
+		to_append.append (consonants_array[index][1][new_index])
+	class_scores_matrix.append (to_append)
+
+scores_dict = {}
+scores_dict_last = {}
+for i in range (0, len (classes)):
+	possible = substitutions[i]
+	with_scores = []
+	for entry in possible:
+		with_scores.append ([entry, class_scores_matrix[i][entry]])
+	all_possible = []
+	all_possible_last = []
+	for entry1 in with_scores:
+		all_possible.append ( ([entry1[0]], entry1[1], 0))
+		all_possible_last.append ( ([entry1[0]], entry1[1], 0))
+		all_possible.append ( ([entry1[0], vowel_code], entry1[1]+2, 1))
+		for entry2 in with_scores:
+			if entry1 != entry2:
+				all_possible.append ( ([entry1[0], entry2[0]], max(entry1[1], entry2[1]), 0))
+				all_possible_last.append ( ([entry1[0], entry2[0]],max(entry1[1], entry2[1]), 0))
+			all_possible.append ( ([entry1[0], vowel_code, entry2[0]], max(entry1[1],entry2[1])+2, 1))
+	# need to sort them both
+	# bozo sort
+
+	all_possible = sorted (all_possible, key=lambda entry:entry[1])
+	all_possible_last = sorted (all_possible_last, key=lambda entry:entry[1])
+
+	scores_dict[i] = all_possible
+	scores_dict_last[i] = all_possible_last
+
+
+
+
+
 
 
 def create_all_templates (my_array, is_last):
