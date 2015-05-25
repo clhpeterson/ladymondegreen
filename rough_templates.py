@@ -30,14 +30,20 @@ def vowels_and_consonant_clusters (word, vowels):
 def rough_templates (word, vowels, blank_code):
 	# word should already be in the form of a consonant cluster
 	templates = []
-	actuals = []
 	lengths = []
 
 	for entry in word:
 		if entry[0] == "v":
 			vowel = entry[1][0]
-			templates.append ([["v"],[], ["v", "v"], ["v", "c", "v"]])
-			actuals.append ([[vowel], [], [vowel, vowel], [vowel, blank_code, vowel]])
+			new_temps = [	[["v"], [vowel]], 	[[], []],	[["v", "v"], [vowel, vowel]], 	[["v", "c", "v"], [vowel, blank_code, vowel]]	]
+			templates.append (new_temps)
 			lengths.append (4)
+		else:
+			consonant_cluster = entry[1]
+			returned = consonant_cluster_templates (consonant_cluster)
+			templates.append (returned)
+			lengths.append (len (returned))
+	return templates, lengths
+
 			
 
